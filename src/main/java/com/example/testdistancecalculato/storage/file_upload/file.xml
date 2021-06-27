@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<cities>
+    <city id="1">
+        <name>Samara</name>
+        <latitude>53.20007</latitude>
+        <longitude>50.15</longitude>
+    </city>
+    <city id="2">
+        <name>Moscow</name>
+        <latitude>53.20007</latitude>
+        <longitude>50.15</longitude>
+    </city>
+    <city id="3">
+        <name>Tver</name>
+        <latitude>56.852</latitude>
+        <longitude>35.9217</longitude>
+    </city>
+    <city id="4">
+        <name>Irkutsk</name>
+        <latitude>52.29778</latitude>
+        <longitude>104.29639</longitude>
+    </city>
+	 <city id="5">
+        <name>Taganrog</name>
+        <latitude></latitude>
+        <longitude></longitude>
+    </city>
+</cities>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
+http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.8.xsd">
+    <changeSet id="1" author="Maxim Korolkov">
+        <createTable tableName="city">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"  />
+            </column>
+            <column name="name" type="varchar(250)"/>
+            <column name="latitude" type="float"/>
+            <column name="longitude" type="float"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
