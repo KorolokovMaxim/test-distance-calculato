@@ -16,9 +16,9 @@ public class Distance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "from_city" )
+    @Column(name = "from_city")
     private String fromCity;
-    @Column(name = "to_city")
+    @Column(name = "to_city" )
     private String toCity;
     @Column(name = "distance")
     private Double distance;

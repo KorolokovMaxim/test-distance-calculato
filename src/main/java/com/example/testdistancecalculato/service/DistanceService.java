@@ -2,6 +2,7 @@ package com.example.testdistancecalculato.service;
 
 import com.example.testdistancecalculato.entity.City;
 import com.example.testdistancecalculato.entity.Distance;
+import com.example.testdistancecalculato.exceptions.GlobalExceptionHandler;
 import com.example.testdistancecalculato.repository.DistanceRepository;
 import javassist.NotFoundException;
 
@@ -61,17 +62,37 @@ public class DistanceService {
             List<City> toCityList,
             List<City> fromCityList) {
 
-        Collection<Distance> distanceCollection = new ArrayList<>();
         double distance;
-        for (int i = 0; i < toCityList.size(); i++) {
+        Collection<Distance> distanceList = new ArrayList<>();
 
-            distance = distanceCrowFlight(fromCityList.get(i), toCityList.get(i));
+        if (toCityList.size() != fromCityList.size()) {
+            Collection<Distance> error = new ArrayList<>();
+            error.add(new Distance("Количество городов", "Должно быть одинаково", 0D));
+            return new ResponseEntity<Collection<Distance>>(error, HttpStatus.OK);
+        } else {
 
+            for (int i = 0; i < toCityList.size(); i++) {
+
+                distance = distanceCrowFlight(fromCityList.get(i), toCityList.get(i));
+                Distance newDistance = new Distance(fromCityList.get(i).getName(),
+                        toCityList.get(i).getName(), distance);
+
+                if (distanceRepository.existsByFromCityAndToCity(fromCityList.get(i).getName(), toCityList.get(i).getName())) {
+                    distanceList.add(distanceRepository.findByFromCityAndToCity(fromCityList.get(i).getName(), toCityList.get(i).getName()));
+                } else {
+
+                    distanceList.add(distanceRepository.save(newDistance));
+
+                }
+
+            }
+
+            System.out.println(Arrays.toString(distanceList.toArray()));
 
         }
 
 
-        return new ResponseEntity<Collection<Distance>>(distanceCollection, HttpStatus.OK);
+        return new ResponseEntity<Collection<Distance>>(distanceList, HttpStatus.OK);
     }
 
     private boolean ifNotDistance(Double p1, Double p2, Double p3, Double p4) {
@@ -82,20 +103,34 @@ public class DistanceService {
             List<City> toCityList,
             List<City> fromCityList) {
 
-        double distance;
         Collection<Distance> distanceList = new ArrayList<>();
+        double distance;
 
         if (toCityList.size() != fromCityList.size()) {
-            return null;
+            Collection<Distance> error = new ArrayList<>();
+            error.add(new Distance("Количество городов", "Должно быть одинаково", 0D));
+            return new ResponseEntity<Collection<Distance>>(error, HttpStatus.OK);
         } else {
-            for (int i = 0; i < toCityList.size(); i++) {
 
-                distance = distanceCrowFlight(fromCityList.get(i), toCityList.get(i));
-                Distance newDistance = new Distance(fromCityList.get(i).getName(),
-                        toCityList.get(i).getName(), distance);
-                if (distanceRepository.findAll().contains(newDistance)) {
-                    distanceList.add(newDistance);
+            if (fromCityList.size() > 1) {
+//                distanceList.add(new Distance(
+//                        "В этом методе нельзя добовлять больше одной пары ",
+//                        "для добовления многих городов воспользуйтесь методов md " +
+//                                "(?method=md&from_city_list&to_city_list) ",
+//                        0D));
+
+                return new ResponseEntity<Collection<Distance>>(distanceList, HttpStatus.OK);
+
+            } else {
+                distance = distanceCrowFlight(fromCityList.get(0), toCityList.get(0));
+
+                Distance newDistance = new Distance(fromCityList.get(0).getName(),
+                        toCityList.get(0).getName(), distance);
+
+                if (distanceRepository.existsByFromCityAndToCity(fromCityList.get(0).getName(), toCityList.get(0).getName())) {
+                    distanceList.add(distanceRepository.findByFromCityAndToCity(fromCityList.get(0).getName(), toCityList.get(0).getName()));
                 } else {
+
                     distanceList.add(distanceRepository.save(newDistance));
                 }
             }
@@ -137,7 +172,6 @@ public class DistanceService {
                         * Math.pow(Math.sin(dlon / 2), 2);
 
                 c = 2 * Math.asin(Math.sqrt(a));
-
 
             }
             return (c * r);

@@ -35,9 +35,9 @@ public class RESTController {
     }
 
 
-    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping()
     public ResponseEntity<String> indexAPI() {
-        return new ResponseEntity<>("Not page" , HttpStatus.OK);
+        return new ResponseEntity<String>("Index page", HttpStatus.OK);
     }
 
 
@@ -52,7 +52,7 @@ public class RESTController {
 
         cityService.uploadFile(file);
 
-        for (City city : cityService.getAllCities().getCities()){
+        for (City city : cityService.getAllCities().getCities()) {
             cityService.save(city);
         }
 
@@ -61,13 +61,14 @@ public class RESTController {
     @RequestMapping(value = "/get-distance", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody()
     public ResponseEntity<Collection<Distance>> getDistance(@RequestParam(value = "method") String method,
-                                                           @RequestParam(value = "from") String toCity,
-                                                           @RequestParam(value = "to") String fromCity) {
+                                                            @RequestParam(value = "from") String toCity,
+                                                            @RequestParam(value = "to") String fromCity) {
 
 
-        return distanceRepositoryImp.calculateDistanceCrowfligh(method, toCity, fromCity) ;
+        return distanceRepositoryImp.calculateDistanceCrowfligh(method, toCity, fromCity);
 
     }
+
 }
 
 
