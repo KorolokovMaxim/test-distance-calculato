@@ -6,6 +6,8 @@ import com.example.testdistancecalculato.exceptions.GlobalExceptionHandler;
 import com.example.testdistancecalculato.repository.DistanceRepository;
 import javassist.NotFoundException;
 
+import netscape.javascript.JSException;
+import netscape.javascript.JSObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,9 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.*;
+
+import static java.lang.Math.pow;
+import static java.lang.Math.sqrt;
 
 
 @Repository
@@ -50,44 +55,49 @@ public class DistanceService {
         }
 
         if (method.equals(CROWFLIGHT_METHOD)) {
-            return getDistanceCrowFlight(toCityList, fromCityList);
+            return getDistanceCrowFlight(toCityList, fromCityList, method);
 
         } else if (method.equals(MATRIX_DISTANCE)) {
-            return getDistanceMatrix(toCityList, fromCityList);
+            return getDistanceMatrix(toCityList, fromCityList, method);
         }
         return null;
     }
 
     private ResponseEntity<Collection<Distance>> getDistanceMatrix(
             List<City> toCityList,
-            List<City> fromCityList) {
+            List<City> fromCityList,
+            String method) {
 
         double distance;
-        Collection<Distance> distanceList = new ArrayList<>();
+        List<Distance> distanceList = new ArrayList<>();
 
         if (toCityList.size() != fromCityList.size()) {
-            Collection<Distance> error = new ArrayList<>();
-            error.add(new Distance("Количество городов", "Должно быть одинаково", 0D));
-            return new ResponseEntity<Collection<Distance>>(error, HttpStatus.OK);
+            throw new JSException("Количество городов Должно быть одинаково");
         } else {
 
             for (int i = 0; i < toCityList.size(); i++) {
 
-                distance = distanceCrowFlight(fromCityList.get(i), toCityList.get(i));
+                distance = distance(fromCityList.get(i).getLatitude(),
+                        toCityList.get(i).getLatitude(),
+                        fromCityList.get(i).getLongitude(),
+                        toCityList.get(i).getLongitude());
+
+
                 Distance newDistance = new Distance(fromCityList.get(i).getName(),
                         toCityList.get(i).getName(), distance);
 
-                if (distanceRepository.existsByFromCityAndToCity(fromCityList.get(i).getName(), toCityList.get(i).getName())) {
-                    distanceList.add(distanceRepository.findByFromCityAndToCity(fromCityList.get(i).getName(), toCityList.get(i).getName()));
-                } else {
+//                if (distanceRepository.existsByFromCityAndToCity(fromCityList.get(i).getName(), toCityList.get(i).getName() )) {
+//
+//                    distanceList.add(distanceRepository.findByFromCityAndToCity(fromCityList.get(i).getName(), toCityList.get(i).getName()));
+//                } else {
+//
+//                    distanceList.add(distanceRepository.save(newDistance));
+//
+//                }
 
-                    distanceList.add(distanceRepository.save(newDistance));
-
-                }
+                distanceList.add(distanceRepository.save(newDistance));
 
             }
-
-            System.out.println(Arrays.toString(distanceList.toArray()));
 
         }
 
@@ -101,39 +111,31 @@ public class DistanceService {
 
     public ResponseEntity<Collection<Distance>> getDistanceCrowFlight(
             List<City> toCityList,
-            List<City> fromCityList) {
+            List<City> fromCityList,
+            String method) {
 
-        Collection<Distance> distanceList = new ArrayList<>();
+        List<Distance> distanceList = new ArrayList<>();
         double distance;
 
         if (toCityList.size() != fromCityList.size()) {
-            Collection<Distance> error = new ArrayList<>();
-            error.add(new Distance("Количество городов", "Должно быть одинаково", 0D));
-            return new ResponseEntity<Collection<Distance>>(error, HttpStatus.OK);
+            throw new JSException("Количество городов Должно быть одинаково");
         } else {
+            for (int i = 0; i < fromCityList.size(); i++) {
+                distance = distanceCrowFlight(fromCityList.get(i), toCityList.get(i));
 
-            if (fromCityList.size() > 1) {
-//                distanceList.add(new Distance(
-//                        "В этом методе нельзя добовлять больше одной пары ",
-//                        "для добовления многих городов воспользуйтесь методов md " +
-//                                "(?method=md&from_city_list&to_city_list) ",
-//                        0D));
+                Distance newDistance = new Distance(fromCityList.get(i).getName(),
+                        toCityList.get(i).getName(), distance);
 
-                return new ResponseEntity<Collection<Distance>>(distanceList, HttpStatus.OK);
+//                if (distanceRepository.existsByFromCityAndToCity(fromCityList.get(i).getName(), toCityList.get(i).getName() )) {
+//                    distanceList.add(distanceRepository.findByFromCityAndToCity(fromCityList.get(i).getName(), toCityList.get(i).getName()));
+//                } else {
+//                    distanceList.add(distanceRepository.save(newDistance));
+//
+//                }
 
-            } else {
-                distance = distanceCrowFlight(fromCityList.get(0), toCityList.get(0));
-
-                Distance newDistance = new Distance(fromCityList.get(0).getName(),
-                        toCityList.get(0).getName(), distance);
-
-                if (distanceRepository.existsByFromCityAndToCity(fromCityList.get(0).getName(), toCityList.get(0).getName())) {
-                    distanceList.add(distanceRepository.findByFromCityAndToCity(fromCityList.get(0).getName(), toCityList.get(0).getName()));
-                } else {
-
-                    distanceList.add(distanceRepository.save(newDistance));
-                }
+                distanceList.add(distanceRepository.save(newDistance));
             }
+
         }
         return new ResponseEntity<Collection<Distance>>(distanceList, HttpStatus.OK);
     }
@@ -167,11 +169,11 @@ public class DistanceService {
 
                 double dlon = lon2 - lon1;
                 double dlat = lat2 - lat1;
-                double a = Math.pow(Math.sin(dlat / 2), 2)
+                double a = pow(Math.sin(dlat / 2), 2)
                         + Math.cos(lat1) * Math.cos(lat2)
-                        * Math.pow(Math.sin(dlon / 2), 2);
+                        * pow(Math.sin(dlon / 2), 2);
 
-                c = 2 * Math.asin(Math.sqrt(a));
+                c = 2 * Math.asin(sqrt(a));
 
             }
             return (c * r);
@@ -179,5 +181,10 @@ public class DistanceService {
 
     }
 
+    private double distance(double x1, double y1, double x2, double y2) {
+
+        return Math.sqrt(Math.pow(x2 - x1, 2) +
+                Math.pow(y2 - y1, 2));
+    }
 
 }

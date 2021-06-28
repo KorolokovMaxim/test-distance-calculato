@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @ControllerAdvice
 @RestController
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler extends RuntimeException {
 
     private static class JsonResponse {
         String message;

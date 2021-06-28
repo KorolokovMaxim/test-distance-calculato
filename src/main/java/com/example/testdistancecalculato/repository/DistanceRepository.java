@@ -8,7 +8,9 @@ import java.util.List;
 
 
 public interface DistanceRepository extends JpaRepository<Distance , Long> {
-        Boolean existsByFromCityAndToCity(String from , String to);
+
+
+        Boolean existsByFromCityAndToCity(String from , String to );
 
         Distance findByFromCityAndToCity(String from , String to);
 
