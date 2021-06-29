@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 
 @RestController
@@ -35,9 +37,22 @@ public class RESTController {
     }
 
 
-    @RequestMapping()
-    public ResponseEntity<String> indexAPI() {
-        return new ResponseEntity<String>("Index page", HttpStatus.OK);
+    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<List<Object>> indexAPI() {
+        List<Object> commands = new ArrayList<>();
+
+        commands.add("Показать все города");
+        commands.add("http://localhost:8080/show-all-city");
+        commands.add("Подсчет методом crowflight");
+        commands.add("Пример: http://localhost:8080/get-distance?method=cf&from=Samara,Irkutsk&to=Tver,Moscow");
+        commands.add("Подсчет методом distance matrix");
+        commands.add("Пример: http://localhost:8080/get-distance?method=md&from=Samara,Irkutsk&to=Tver,Moscow");
+        commands.add("Подсчет двумя способами");
+        commands.add("Пример: http://localhost:8080/get-distance?method=all&from=Samara,Irkutsk&to=Tver,Moscow");
+
+
+        return new ResponseEntity<List<Object>>(commands, HttpStatus.OK);
     }
 
 

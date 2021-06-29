@@ -2,10 +2,17 @@
 
 Сделал Корольков Максим
 
+<======ВАЖНО=======>
+
+ИЗМЕНИТЬ КОНФИГУРАЦИИ в src/main/resources/application.properties
+
 MySQL login/password - root/root
 MySQL database name - distance-calculator
+
 file.upload-dir - в файле application.properties - нужно указать абсолютный путь к пакету
                   куда сохраняется XML файл (в самом файле есть пример как это выглядит , указать путь до пакета src)
+<====ВАЖНО========>
+
 
 TOOLS
     - Maven
@@ -67,6 +74,8 @@ TOOLS
         - Показать одну или несколько дистанций обоими способами
              -    http://localhost:8080/get-distance?method=all&from=Samara,Irkutsk&to=Tver,Moscow
 
+
+Вроде все) это моя первая документация.
 
 
 
