@@ -61,11 +61,11 @@ public class RESTController {
     @RequestMapping(value = "/get-distance", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody()
     public ResponseEntity<Collection<Distance>> getDistance(@RequestParam(value = "method") String method,
-                                                            @RequestParam(value = "from") String toCity,
-                                                            @RequestParam(value = "to") String fromCity) {
+                                                            @RequestParam(value = "from") String fromCity,
+                                                            @RequestParam(value = "to") String toCity) {
 
 
-        return distanceRepositoryImp.calculateDistanceCrowfligh(method, toCity, fromCity);
+        return distanceRepositoryImp.calculateDistanceCrowfligh(method, fromCity, toCity);
 
     }
 
