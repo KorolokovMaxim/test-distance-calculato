@@ -108,10 +108,8 @@ public class DistanceService {
             distanceList.add(distanceRepository.findByFromCityAndToCityAndDistance(
                     fromCityList.get(i).getName(),
                     toCityList.get(i).getName() , distance));
-            System.out.println("GET");
         } else {
             distanceList.add(distanceRepository.save(newDistance));
-            System.out.println("SAVE");
         }
     }
 

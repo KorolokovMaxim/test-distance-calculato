@@ -67,12 +67,12 @@ TOOLS
         - Показать все города из БД
             - http://localhost:8080/show-all-city
         - Показать одну или несколько дистанций методом crowflight
-            -     http://localhost:8080/get-distance?method=cf&from=Samara,Irkutsk&to=Tver,Moscow
+            -     http://localhost:8080/get-distance?method=cf&from=Самара,Иркутск&to=Тверь,Москва
             дистанции разделяються запятой
         - Показать одну или несколько дистанций методом Distance Matrix
-             -    http://localhost:8080/get-distance?method=md&from=Samara,Irkutsk&to=Tver,Moscow
+             -    http://localhost:8080/get-distance?method=md&from=Самара,Иркутск&to=Тверь,Москва
         - Показать одну или несколько дистанций обоими способами
-             -    http://localhost:8080/get-distance?method=all&from=Samara,Irkutsk&to=Tver,Moscow
+             -    http://localhost:8080/get-distance?method=all&from=Самара,Иркутск&to=Тверь,Москва
 
 
 Вроде все) это моя первая документация.
