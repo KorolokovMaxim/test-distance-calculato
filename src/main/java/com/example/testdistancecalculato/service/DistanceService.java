@@ -2,18 +2,15 @@ package com.example.testdistancecalculato.service;
 
 import com.example.testdistancecalculato.entity.City;
 import com.example.testdistancecalculato.entity.Distance;
-import com.example.testdistancecalculato.exceptions.GlobalExceptionHandler;
 import com.example.testdistancecalculato.repository.DistanceRepository;
 import javassist.NotFoundException;
 
 import netscape.javascript.JSException;
-import netscape.javascript.JSObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
 import java.util.*;
 
 import static java.lang.Math.pow;
@@ -29,6 +26,7 @@ public class DistanceService {
 
     private final String CROWFLIGHT_METHOD = "cf";
     private final String MATRIX_DISTANCE = "md";
+    private final String ALL_METHODS = "all";
 
     @Autowired
     public DistanceService(CityService cityService, DistanceRepository distanceRepository) {
@@ -54,19 +52,22 @@ public class DistanceService {
             fromCityList.add(cityService.findCityByName(s));
         }
 
-        if (method.equals(CROWFLIGHT_METHOD)) {
-            return getDistanceCrowFlight(toCityList, fromCityList, method);
-
-        } else if (method.equals(MATRIX_DISTANCE)) {
-            return getDistanceMatrix(toCityList, fromCityList, method);
+        switch (method) {
+            case CROWFLIGHT_METHOD:
+                return getDistanceCrowFlight(fromCityList, toCityList);
+            case MATRIX_DISTANCE:
+                return getDistanceMatrix(fromCityList, toCityList);
+            case ALL_METHODS:
+                return getAllDistance(fromCityList , toCityList);
+            default:
+                throw new JSException("Такого метода не существует");
         }
-        return null;
+
     }
 
     private ResponseEntity<Collection<Distance>> getDistanceMatrix(
             List<City> toCityList,
-            List<City> fromCityList,
-            String method) {
+            List<City> fromCityList) {
 
         double distance;
         List<Distance> distanceList = new ArrayList<>();
@@ -74,45 +75,27 @@ public class DistanceService {
         if (toCityList.size() != fromCityList.size()) {
             throw new JSException("Количество городов Должно быть одинаково");
         } else {
-
             for (int i = 0; i < toCityList.size(); i++) {
 
-                distance = distance(fromCityList.get(i).getLatitude(),
+                distance = distanceMatrix(fromCityList.get(i).getLatitude(),
                         toCityList.get(i).getLatitude(),
                         fromCityList.get(i).getLongitude(),
                         toCityList.get(i).getLongitude());
 
 
-                Distance newDistance = new Distance(fromCityList.get(i).getName(),
-                        toCityList.get(i).getName(), distance);
-
-//                if (distanceRepository.existsByFromCityAndToCity(fromCityList.get(i).getName(), toCityList.get(i).getName() )) {
-//
-//                    distanceList.add(distanceRepository.findByFromCityAndToCity(fromCityList.get(i).getName(), toCityList.get(i).getName()));
-//                } else {
-//
-//                    distanceList.add(distanceRepository.save(newDistance));
-//
-//                }
-
-                distanceList.add(distanceRepository.save(newDistance));
-
+                createNewDistance(toCityList, fromCityList, distanceList, distance, i);
             }
-
         }
 
 
         return new ResponseEntity<Collection<Distance>>(distanceList, HttpStatus.OK);
     }
 
-    private boolean ifNotDistance(Double p1, Double p2, Double p3, Double p4) {
-        return p1 == null || p2 == null || p3 == null || p4 == null;
-    }
+
 
     public ResponseEntity<Collection<Distance>> getDistanceCrowFlight(
             List<City> toCityList,
-            List<City> fromCityList,
-            String method) {
+            List<City> fromCityList) {
 
         List<Distance> distanceList = new ArrayList<>();
         double distance;
@@ -122,22 +105,63 @@ public class DistanceService {
         } else {
             for (int i = 0; i < fromCityList.size(); i++) {
                 distance = distanceCrowFlight(fromCityList.get(i), toCityList.get(i));
+                createNewDistance(toCityList, fromCityList, distanceList, distance, i);
 
-                Distance newDistance = new Distance(fromCityList.get(i).getName(),
-                        toCityList.get(i).getName(), distance);
-
-//                if (distanceRepository.existsByFromCityAndToCity(fromCityList.get(i).getName(), toCityList.get(i).getName() )) {
-//                    distanceList.add(distanceRepository.findByFromCityAndToCity(fromCityList.get(i).getName(), toCityList.get(i).getName()));
-//                } else {
-//                    distanceList.add(distanceRepository.save(newDistance));
-//
-//                }
-
-                distanceList.add(distanceRepository.save(newDistance));
             }
-
         }
         return new ResponseEntity<Collection<Distance>>(distanceList, HttpStatus.OK);
+    }
+
+
+    private ResponseEntity<Collection<Distance>> getAllDistance(List<City> toCityList,
+                                                List<City> fromCityList){
+
+            List<Distance> allMethodDistance = new ArrayList<>();
+
+            double crowflightDistance;
+            double distanceMatrix;
+
+        if (toCityList.size() != fromCityList.size()) {
+            throw new JSException("Количество городов Должно быть одинаково");
+        } else {
+            for (int i = 0; i < fromCityList.size(); i++) {
+                crowflightDistance = distanceCrowFlight(fromCityList.get(i), toCityList.get(i));
+                distanceMatrix = distanceMatrix(fromCityList.get(i).getLatitude(),
+                        toCityList.get(i).getLatitude(),
+                        fromCityList.get(i).getLongitude(),
+                        toCityList.get(i).getLongitude());
+
+
+                createNewDistance(fromCityList, toCityList, allMethodDistance, crowflightDistance, i);
+                createNewDistance(fromCityList , toCityList , allMethodDistance , distanceMatrix , i);
+
+            }
+        }
+
+        return new ResponseEntity<Collection<Distance>>(allMethodDistance , HttpStatus.OK) ;
+
+
+    }
+
+    private void createNewDistance(List<City> toCityList, List<City> fromCityList, List<Distance> distanceList, double distance, int i) {
+        Distance newDistance = new Distance(fromCityList.get(i).getName(),
+                toCityList.get(i).getName(), distance);
+
+        if (distanceRepository.existsByFromCityAndToCityAndDistance(fromCityList.get(i).getName(), toCityList.get(i).getName() , distance)) {
+            distanceList.add(distanceRepository.findByFromCityAndToCityAndDistance(fromCityList.get(i).getName(), toCityList.get(i).getName() , distance));
+        } else {
+            distanceList.add(distanceRepository.save(newDistance));
+
+        }
+    }
+
+
+
+
+
+
+    private boolean ifNotDistance(Double p1, Double p2, Double p3, Double p4) {
+        return p1 == null || p2 == null || p3 == null || p4 == null;
     }
 
     private double distanceCrowFlight(City firstCity, City secondCity) {
@@ -181,7 +205,7 @@ public class DistanceService {
 
     }
 
-    private double distance(double x1, double y1, double x2, double y2) {
+    private double distanceMatrix(double x1, double y1, double x2, double y2) {
 
         return Math.sqrt(Math.pow(x2 - x1, 2) +
                 Math.pow(y2 - y1, 2));
