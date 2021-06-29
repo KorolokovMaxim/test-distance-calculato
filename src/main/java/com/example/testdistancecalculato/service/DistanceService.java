@@ -115,7 +115,6 @@ public class DistanceService {
         }
     }
 
-
     public ResponseEntity<Collection<Distance>> getDistanceCrowFlight(
             List<City> fromCityList,
             List<City> toCityList) {
@@ -135,11 +134,8 @@ public class DistanceService {
         return new ResponseEntity<Collection<Distance>>(distanceList, HttpStatus.OK);
     }
 
-
-
     private ResponseEntity<Collection<Distance>> getAllDistance(List<City> fromCityList,
                                                                 List<City> toCityList) {
-
         List<Distance> allMethodDistance = new ArrayList<>();
 
         double crowflightDistance;
@@ -154,8 +150,6 @@ public class DistanceService {
                         toCityList.get(i).getLatitude(),
                         fromCityList.get(i).getLongitude(),
                         toCityList.get(i).getLongitude());
-
-
                 createNewDistance(fromCityList, toCityList, crowflightDistance, allMethodDistance, i);
                 createNewDistance(fromCityList, toCityList, distanceMatrix, allMethodDistance, i);
 
@@ -209,7 +203,6 @@ public class DistanceService {
         }
 
     }
-
     private float distanceMatrix(double x1, double y1, double x2, double y2) {
 
         return (float) Math.sqrt(Math.pow(x2 - x1, 2) +

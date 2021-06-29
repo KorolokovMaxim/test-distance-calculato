@@ -9,6 +9,12 @@ import javax.xml.bind.Marshaller;
 import java.io.File;
 
 
+/**
+ *
+ * Тут можно самому создать XML файл с городами и их координатами
+ *
+ *
+ */
 public class jaxbWriter {
 
     public static void main(String[] args)  {
