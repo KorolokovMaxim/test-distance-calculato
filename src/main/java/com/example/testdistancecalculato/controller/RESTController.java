@@ -45,11 +45,11 @@ public class RESTController {
         commands.add("Показать все города");
         commands.add("http://localhost:8080/show-all-city");
         commands.add("Подсчет методом crowflight");
-        commands.add("Пример: http://localhost:8080/get-distance?method=cf&from=Samara,Irkutsk&to=Tver,Moscow");
+        commands.add("Пример: http://localhost:8080/get-distance?method=cf&from=Самара,Иркутск&to=Тверь,Москва");
         commands.add("Подсчет методом distance matrix");
-        commands.add("Пример: http://localhost:8080/get-distance?method=md&from=Samara,Irkutsk&to=Tver,Moscow");
+        commands.add("Пример: http://localhost:8080/get-distance?method=md&from=Самара,Иркутск&to=Тверь,Москва");
         commands.add("Подсчет двумя способами");
-        commands.add("Пример: http://localhost:8080/get-distance?method=all&from=Samara,Irkutsk&to=Tver,Moscow");
+        commands.add("Пример: http://localhost:8080/get-distance?method=all&from=Самара,Иркутск&to=Тверь,Москва");
 
 
         return new ResponseEntity<List<Object>>(commands, HttpStatus.OK);
