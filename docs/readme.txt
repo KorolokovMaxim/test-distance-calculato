@@ -48,11 +48,24 @@ TOOLS
         - Загрузку данных в базу данных из XML файла
 
 
+    Загрузить данные из файла в базу данных
+        - В Postman или любой другой программе выбрать:
+            URL: localhost:8080/upload
+            Метод: POST
+            Key: file (тип File)
+
+
+
     Примеры работы программы:
         - Показать все города из БД
             - http://localhost:8080/show-all-city
-
-
+        - Показать одну или несколько дистанций методом crowflight
+            -     http://localhost:8080/get-distance?method=cf&from=Samara,Irkutsk&to=Tver,Moscow
+            дистанции разделяються запятой
+        - Показать одну или несколько дистанций методом Distance Matrix
+             -    http://localhost:8080/get-distance?method=md&from=Samara,Irkutsk&to=Tver,Moscow
+        - Показать одну или несколько дистанций обоими способами
+             -    http://localhost:8080/get-distance?method=all&from=Samara,Irkutsk&to=Tver,Moscow
 
 
 
