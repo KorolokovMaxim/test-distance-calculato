@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<cities>
+    <city id="1">
+        <name>Самара</name>
+        <latitude>53.20007</latitude>
+        <longitude>50.15</longitude>
+    </city>
+    <city id="2">
+        <name>Москва</name>
+        <latitude>53.20007</latitude>
+        <longitude>50.15</longitude>
+    </city>
+    <city id="3">
+        <name>Тверь</name>
+        <latitude>56.852</latitude>
+        <longitude>35.9217</longitude>
+    </city>
+    <city id="4">
+        <name>Иркутск</name>
+        <latitude>52.29778</latitude>
+        <longitude>104.29639</longitude>
+    </city>
+	 <city id="5">
+        <name>Тамбов</name>
+        <latitude>52.721246</latitude>
+        <longitude>41.452238</longitude>
+    </city>
+	    <city id="6">
+        <name>Барнаул</name>
+        <latitude>53.356132</latitude>
+        <longitude>83.749619</longitude>
+    </city>
+    <city id="7">
+        <name>Великий Новгород</name>
+        <latitude>58.521475</latitude>
+        <longitude>31.275475</longitude>
+    </city>
+    <city id="8">
+        <name>Владивосток</name>
+        <latitude>43.134019</latitude>
+        <longitude>131.928379</longitude>
+    </city>
+    <city id="9">
+        <name>Ставрополь</name>
+        <latitude>45.044502</latitude>
+        <longitude>41.969065</longitude>
+    </city>
+	 <city id="10">
+        <name>Уфа</name>
+        <latitude>54.734768</latitude>
+        <longitude>55.957838</longitude>
+    </city>
+	    <city id="11">
+        <name>Чебоксары</name>
+        <latitude>56.1439</latitude>
+        <longitude>47.248887</longitude>
+    </city>
+    <city id="12">
+        <name>Ярославль</name>
+        <latitude>57.626569</latitude>
+        <longitude>39.893822</longitude>
+    </city>
+    <city id="13">
+        <name>Ульяновск</name>
+        <latitude>54.317002</latitude>
+        <longitude>48.402243 </longitude>
+    </city>
+    <city id="14">
+        <name>Тольятти</name>
+        <latitude>53.511311</latitude>
+        <longitude>49.418084</longitude>
+    </city>
+	 <city id="15">
+        <name>Северодвинск</name>
+        <latitude>64.558186</latitude>
+        <longitude>39.82962</longitude>
+    </city>
+	    <city id="16">
+        <name>Сочи</name>
+        <latitude>43.581509</latitude>
+        <longitude>39.722882</longitude>
+    </city>
+    <city id="17">
+        <name>Саратов</name>
+        <latitude>51.531528</latitude>
+        <longitude>46.03582 </longitude>
+    </city>
+    <city id="18">
+        <name>Санкт-Петербург</name>
+        <latitude>59.938806</latitude>
+        <longitude>30.314278</longitude>
+    </city>
+    <city id="19">
+        <name>Рязань</name>
+        <latitude>54.619886</latitude>
+        <longitude>39.744954</longitude>
+    </city>
+	 <city id="20">
+        <name>Псков</name>
+        <latitude>57.819365</latitude>
+        <longitude>28.331786</longitude>
+    </city>
+	    <city id="21">
+        <name>Первоуральск</name>
+        <latitude>56.908099</latitude>
+        <longitude>59.942935 </longitude>
+    </city>
+    <city id="22">
+        <name>Орел</name>
+        <latitude>52.970306</latitude>
+        <longitude>36.063514</longitude>
+    </city>
+    <city id="23">
+        <name>Норильск</name>
+        <latitude>69.349039</latitude>
+        <longitude>88.201014</longitude>
+    </city>
+    <city id="24">
+        <name>Новороссийск</name>
+        <latitude>44.723489</latitude>
+        <longitude>37.76866</longitude>
+    </city>
+	 <city id="25">
+        <name>Нижний Тагил</name>
+        <latitude>57.910144</latitude>
+        <longitude>59.98132 </longitude>
+    </city>
+	    <city id="26">
+        <name>Магнитогорск</name>
+        <latitude>53.411677</latitude>
+        <longitude>58.984415 </longitude>
+    </city>
+    <city id="27">
+        <name>Курск</name>
+        <latitude>51.730361</latitude>
+        <longitude>36.192647</longitude>
+    </city>
+    <city id="28">
+        <name>Краснодар</name>
+        <latitude>45.023877</latitude>
+        <longitude>38.970157</longitude>
+    </city>
+    <city id="29">
+        <name>Королев</name>
+        <latitude>55.916229</latitude>
+        <longitude>37.854467</longitude>
+    </city>
+	 <city id="30">
+        <name>Комсомольск-на-Амуре</name>
+        <latitude>50.54986</latitude>
+        <longitude>137.007867 </longitude>
+    </city>
+</cities>
